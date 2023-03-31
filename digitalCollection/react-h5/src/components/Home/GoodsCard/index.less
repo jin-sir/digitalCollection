@@ -1,0 +1,68 @@
+.desc_container {
+    position: relative;
+    padding: 0 20px 16px;
+
+    .title {
+        margin: 0;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 30px;
+        letter-spacing: 1px;
+        color: #000;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .num_box {
+        display: inline-block;
+        margin-top: 12px;
+        padding-right: 8px;
+        height: 18px;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 18px;
+        color: #b47528;
+        background: rgba(240, 213, 182, .24);
+
+        span {
+            display: inline-block;
+            margin-right: 8px;
+            background: linear-gradient(23.86deg, #ffccb8 -15.3%, #ffc582 96.5%);
+            padding: 0 9px;
+            font-style: normal;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: .7px;
+            color: #441c02;
+        }
+    }
+
+    .author {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        margin-top: 16px;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 30px;
+        letter-spacing: .7px;
+        color: rgba(33, 19, 1, .8);
+    }
+    
+    .price {
+        position: absolute;
+        right: 20px;
+        bottom: 20px;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 28px;
+        line-height: 28px;
+        .common_icon {
+            font-style:normal
+        }
+    }
+}

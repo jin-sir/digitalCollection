@@ -1,0 +1,102 @@
+.my_page {
+    box-sizing: border-box;
+    width: 100%;
+    height: calc(100vh - var(--browser-address-bar, 0px) - 50px);
+    padding: 0 16px;
+    background-color: #fafafa;
+
+    :global {
+        .adm-list {
+            margin-top: 20px;
+        }
+    }
+
+    .person_info {
+        width: 100%;
+        height: 180px;
+        border-radius: 8px;
+        background-color: #f3be5c;
+
+        .info_top,
+        .info_bottom {
+            width: 100%;
+            height: 90px;
+        }
+
+        .info_top {
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            padding: 20px;
+
+            .avatar {
+                --size: 50px;
+                --border-radius: 25px;
+                background-color: #ccc;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .top_box {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                margin-left: 14px;
+                height: 35px;
+            }
+        }
+
+        .info_bottom {
+            background-color: #f4b339;
+            border-radius: 0 0 8px 8px;
+
+            .top,
+            .bottom {
+                width: 90%;
+                margin: 0 auto;
+            }
+
+            .top {
+                height: 30px;
+                line-height: 30px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+
+            .bottom {
+                display: flex;
+                justify-content: space-between;
+
+                .btn {
+                    width: 140px;
+                    height: 45px;
+                    --border-radius: 8px;
+                    >span {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                }
+
+                .txt {
+                    margin-left: 6px;
+                    font-size: 14px;
+                    vertical-align: top;
+                }
+            }
+        }
+    }
+
+    .operate_box {
+        overflow: hidden;
+        border-radius: 8px;
+    }
+    .txtWeight {
+        font-weight: 700;
+    }
+    .authenticated {
+        color: #f40;
+    }
+}

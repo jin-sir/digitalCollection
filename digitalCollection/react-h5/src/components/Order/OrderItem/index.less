@@ -1,0 +1,45 @@
+.header {
+    padding: 8px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.order_info {
+    display: flex;
+    padding: 8px 10px;
+    .order_info_box {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding-left: 13px;
+        font-size: 14px;
+        .top,
+        .bottom {
+            display: flex;
+            justify-content: space-between;
+        }
+        i {
+            font-style: normal;
+        }
+        .top {
+            .price {
+                font-size: 16px;
+                font-weight: 700;
+                i {
+                    font-size: 12px;
+                    font-weight: 500;
+                }
+            }
+        }
+        
+        .number {
+            i {
+                font-weight: 700;
+            }
+        }
+        .createAt{
+            font-size: 12px;
+        }
+    }
+}

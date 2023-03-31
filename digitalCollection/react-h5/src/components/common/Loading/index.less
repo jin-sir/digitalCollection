@@ -1,0 +1,63 @@
+.loading {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    font-size: 0;
+    text-align: center;
+}
+
+.loading div {
+    position: relative;
+    display: inline-block;
+}
+
+.loading span {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    margin-top: 15px;
+    margin-right: 5px;
+    border: 1px solid #000;
+    animation: rotateXY 1s infinite;
+}
+.loading_pause span,
+.loading_pause i {
+    animation-play-state: paused;
+}
+
+.loading i {
+    position: absolute;
+    left: 1px;
+    top: 16px;
+    width: 5px;
+    height: 5px;
+    margin: 2px;
+    background-color: #000;
+    border-radius: 50%;
+    animation: opacityAnimate 2s infinite;
+}
+
+@keyframes rotateXY {
+    0% {
+        transform: rotate3d(1, 1, 0, 0);
+    }
+
+    100% {
+        transform: rotate3d(1, 1, 0, 180deg);
+    }
+}
+
+@keyframes opacityAnimate {
+    0% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.5;
+    }
+}

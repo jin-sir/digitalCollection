@@ -1,0 +1,60 @@
+.market_page {
+    width: 100%;
+    .goods_list {
+        padding: 0 16px;
+        background-color: #fafafa;
+    }
+
+}
+
+.header {
+    overflow: hidden;
+    height: 120px;
+    background-image: linear-gradient(90deg, #616161 40%, #000 100%);
+    .search {
+        display: flex;
+        align-items: center;
+        height: 40px;
+        margin: 20px 16px;
+        border-radius: 8px;
+        background-color: #fff;
+        .search_icon {
+            margin-left: 14px;
+            font-size: 22px;
+        }
+        .divide {
+            margin-left: 10px;
+            width: 1px;
+            height: 14px;
+            background-color: #ccc;
+        }
+        .text {
+            margin-left: 16px;
+        }
+    }
+    .tab_container {
+        margin: 0 16px;
+        height: 40px;
+
+        .tabs_item {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+        }
+    }
+}
+.filter_box {
+    padding: 16px;
+    background-color: #fafafa;
+    .filter_item {
+        padding: 10px 10px;
+        font-weight: 700;
+        &.filter_active {
+            color: #ff7f50;
+        }
+    }
+}
+.tab_item {
+    --title-font-size: 16px;
+    font-weight: 700;
+}
