@@ -1,14 +1,13 @@
 import React from "react";
-import { Swiper } from "antd-mobile";
-import styles from "./index.less";
+import { Swiper, Image } from "antd-mobile";
 
-export default function SwiperContainer() {
-  const colors = ["#ace0ff", "#bcffbd", "#e4fabd", "#ffcfac"];
-  const items = colors.map((color, index) => (
-    <Swiper.Item key={index}>
-      <div className={styles.content} style={{ background: color }}>
-        {index + 1}
-      </div>
+export default function SwiperContainer(props) {
+  const items = props.swiperList.map((swiper, index) => (
+    <Swiper.Item key={swiper.id}>
+      <Image
+          src={swiper.url}
+          fit="fill"
+        />
     </Swiper.Item>
   ));
   return (

@@ -1,44 +1,42 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, Image } from "antd-mobile";
+import { Card, Image, Popup } from "antd-mobile";
 import styles from "./index.less";
+import { getUserProductSeriNum } from "../../../api/index";
 
-export default function DigitalCollectionCard() {
-  const navigate = useNavigate();
+export default function DigitalCollectionCard(props) {
   const switchToGoodsPage = useCallback(() => {
-    navigate("/goods?gId=3001");
-  }, [navigate]);
+    props.openPopup(props.cId, {
+      circulation: props.t_collection_sell_manage.circulation,
+      cName: props.t_collection_sell_manage.cName,
+      url: props.t_collection_sell_manage.url,
+      count: props.count,
+    });
+  }, [props.cId]);
   return (
-    <Card
-      onClick={switchToGoodsPage}
-      title={
-        <Image
-          src={
-            "https://file.18art.art/file/oss/nft/image/nft-goods/dece5a0e68b147a398f0ebd8aa55a199.jpg?style=st6"
-          }
-          fit="fill"
-        />
-      }
-      style={{
-        position: "relative",
-        padding: 0,
-      }}
-      bodyStyle={{
-        padding: 0,
-      }}
-      headerStyle={{
-        padding: 0,
-      }}
-    >
-      <div className={styles.desc_container}>
-        <p className={styles.title}>禾下乘凉梦</p>
-        <div className={styles.author}>
-          aefwefew
+    <>
+      <Card
+        onClick={switchToGoodsPage}
+        title={<Image src={props.t_collection_sell_manage.url} fit="fill" />}
+        style={{
+          position: "relative",
+          padding: 0,
+        }}
+        bodyStyle={{
+          padding: 0,
+        }}
+        headerStyle={{
+          padding: 0,
+        }}
+      >
+        <div className={styles.desc_container}>
+          <p className={styles.title}>{props.t_collection_sell_manage.cName}</p>
+          <div className={styles.author}>
+            {props.t_collection_sell_manage.auther}
+          </div>
+          <div className={styles.num}>共{props.count}个</div>
         </div>
-        <div className={styles.num}>
-          共98
-        </div>
-      </div>
-    </Card>
+      </Card>
+    </>
   );
 }

@@ -1,18 +1,30 @@
 import React, { useState } from "react";
-import { Form, Button, Input, Checkbox } from "antd-mobile";
+import { Form, Button, Input, Toast } from "antd-mobile";
 import NavigationBar from "../../components/common/NavigationBar";
+import {realname} from '../../api'
 
 import styles from "../../assets/css/login.less";
 
 export default function RealName_auth() {
-  const [isAgree, setIsAgree] = useState(false);
   return (
     <div className={styles.login_page}>
       <NavigationBar path="/my" title="实名认证" />
       <div className={styles.login_main}>
         <div className={styles.login_form}>
           <Form
-            onFinish={() => {}}
+            onFinish={async (obj) => {
+              const res = await realname(obj)
+              const {code, msg} = res
+              if (code === 0) {
+                Toast.show({
+                  content:msg
+                })
+              } else {
+                Toast.show({
+                  content:msg
+                })
+              }
+            }}
             footer={
               <Button
                 block
@@ -29,10 +41,10 @@ export default function RealName_auth() {
               </Button>
             }
           >
-            <Form.Item name="姓名" label="姓名">
+            <Form.Item name="username" label="姓名" rules={[{ required: true }]}>
               <Input placeholder="请输入姓名" />
             </Form.Item>
-            <Form.Item name="身份证号" label="身份证号">
+            <Form.Item name="IDCard" label="身份证号" rules={[{ required: true }]}>
               <Input placeholder="请输入身份证号" />
             </Form.Item>
           </Form>

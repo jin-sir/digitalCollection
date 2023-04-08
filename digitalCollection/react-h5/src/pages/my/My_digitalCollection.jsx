@@ -1,17 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavigationBar from "../../components/common/NavigationBar";
 import DigitalCollectionList from "../../components/My/DigitalCollectionList";
-import { PullToRefresh, InfiniteScroll } from "antd-mobile";
-import { sleep } from "antd-mobile/es/utils/sleep";
+import { PullToRefresh, InfiniteScroll, Toast } from "antd-mobile";
 import Loading from "../../components/common/Loading";
 import styles from "../../assets/css/my/my_digitalCollection.less";
-
+import { getUserProduct } from "../../api";
 export default function My_digitalCollection() {
-  const [hasMore, setHasMore] = useState(true);
+  const [collections, setCollections] = useState([]);
+  const [page, setPage] = useState(1);
+  useEffect(() => {
+    getUserProduct({ page, limit: 10 }).then(res => {
+      const { code, data } = res;
+      if (code === 0) {
+        setCollections([...collections, ...data]);
+        if (data.length < 10) {
+          setHasMore(false);
+        } else {
+          setHasMore(true);
+        }
+      } else {
+        Toast.show({
+          content: "Error",
+        });
+      }
+    });
+  }, [page]);
+  const [hasMore, setHasMore] = useState(false);
   async function loadMore() {
-    // const append = await mockRequest()
-    // setData(val => [...val, ...append])
-    // setHasMore(append.length > 0)
+    setPage(page + 1);
   }
   return (
     <>
@@ -19,13 +35,31 @@ export default function My_digitalCollection() {
       <div className={styles.digitalCollection_page}>
         <PullToRefresh
           onRefresh={async () => {
-            await sleep(1000);
+            if (page === 1) {
+              const res = await getUserProduct({ page, limit: 10 });
+              const { code, data } = res;
+              if (code === 0) {
+                setCollections(data);
+                if (data.length < 10) {
+                  setHasMore(false);
+                } else {
+                  setHasMore(true);
+                }
+              } else {
+                Toast.show({
+                  content: "Error",
+                });
+              }
+            } else {
+              setPage(1);
+              setCollections([]);
+            }
           }}
           renderText={status => {
             return <Loading status={status} />;
           }}
         >
-          <DigitalCollectionList />
+          <DigitalCollectionList collections={collections} />
           <InfiniteScroll loadMore={loadMore} hasMore={hasMore} />
         </PullToRefresh>
       </div>

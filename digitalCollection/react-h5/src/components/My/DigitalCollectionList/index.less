@@ -5,3 +5,37 @@
     column-gap: 4%;
     margin-top: 10px;
 }
+.popup_content {
+    display: flex;
+    padding: 0 30px;
+    .img {
+        width: 100px;
+        height: 100px;
+        margin-top: -50px;
+    }
+    .info_box {
+        margin-left: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        .cName {
+            font-size: 18px;
+            font-weight: 700;
+        }
+        .num {
+            font-size: 14px;
+            color: #4a4a4a;
+        }
+    }
+}
+.seri_num {
+    display: grid;
+    grid-template-columns: repeat(3, 32%);
+    .seri_num_item {
+        margin-top: 15px;
+        margin-left: 15px;
+        padding: 20px 30px;
+        background-color: #fafafa;
+        border-radius: 8px;
+    }
+}

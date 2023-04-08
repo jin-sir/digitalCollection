@@ -1,0 +1,23 @@
+{
+  "name": "PersonalBlog",
+  "version": "1.0.0",
+  "description": "PersonalBlog's server",
+  "main": "index.js",
+  "author": "JLF",
+  "license": "MIT",
+  "dependencies": {
+    "connect-history-api-fallback": "^2.0.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^9.0.0",
+    "log4js": "^6.3.0",
+    "md5": "^2.3.0",
+    "moment": "^2.29.4",
+    "mysql2": "^2.2.5",
+    "nodemailer": "^6.9.1",
+    "nodemailer-smtp-transport": "^2.7.4",
+    "path-to-regexp": "^6.2.1",
+    "sequelize": "^6.3.5"
+  }
+}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { PullToRefresh, InfiniteScroll, Dropdown, List } from "antd-mobile";
 import { sleep } from "antd-mobile/es/utils/sleep";
 import Loading from "../../components/common/Loading";
@@ -8,6 +8,8 @@ import NavigationBar from "../../components/common/NavigationBar";
 
 export default function Goods() {
   const [getSearchArr] = useSearchParams();
+  const location = useLocation()
+  console.log(location)
   const gId = getSearchArr.getAll("gId");
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
@@ -22,20 +24,28 @@ export default function Goods() {
 
   useEffect(() => {});
   const navigate = useNavigate();
-  const switchToGoodsDetail = useCallback(
-    gid => {
-      // createOrder ->orderId
-      navigate("/goodsDetail?orderId=123");
-    },
-    [navigate]
-  );
-  const goodsList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1].map(it => (
-    <List.Item onClick={switchToGoodsDetail} key={it}>
+  const goodsList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1].map(goods => (
+    <List.Item
+      key={goods}
+      onClick={() => {
+        console.log(goods)
+        navigate("/goodsDetail", {
+          state: {
+            // goodsId: goods.cId,
+            goodsId: goods,
+            path: `${location.pathname}${location.search}`,
+            mode: "market",
+          },
+        });
+      }}
+    >
       <div className={styles.list_item}>
         <div className={styles.goods_infor}>
           <div className={styles.left}>
             <span className={styles.goods_name}>{"金钱之王·远东豹"}</span>
-            <span className={`${styles.status_default} ${styles.jishou}`}>锁定中</span>
+            <span className={`${styles.status_default} ${styles.jishou}`}>
+              锁定中
+            </span>
           </div>
           <div className={styles.right}>{"￥5100"}</div>
         </div>

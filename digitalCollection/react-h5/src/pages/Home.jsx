@@ -1,13 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { PullToRefresh, Tabs } from "antd-mobile";
 import { sleep } from "antd-mobile/es/utils/sleep";
 import SwiperContainer from "../components/Home/SwiperContainer";
 import BulletinBoard from "../components/Home/BulletinBoard";
-import GoodsCard from "../components/Home/GoodsCard";
+import GoodsCardList from "../components/Home/GoodsCardList";
 import Loading from "../components/common/Loading";
 import styles from "../assets/css/home.less";
+import { getTitle, getNewProduct, getSwiperlist } from "../api";
 
 export default function Home() {
+  const [titles, setTitles] = useState([]);
+  const [goodsList, setGoodsList] = useState([]);
+  const [swiperList, setSwiperList] = useState([]);
+  useEffect(() => {
+    getTitle().then(res => {
+      const { code, data } = res;
+      if (code === 0) {
+        const titles = data.map(t => t.title);
+        setTitles(titles);
+      }
+    });
+    getNewProduct().then(res => {
+      const { code, data } = res;
+      if (code === 0) {
+        setGoodsList(data);
+      }
+    });
+    getSwiperlist().then(res => {
+      const { code, data } = res;
+      if (code === 0) {
+        setSwiperList(data);
+      }
+    });
+  }, []);
   return (
     <div className={styles.home_page}>
       <PullToRefresh
@@ -15,13 +40,13 @@ export default function Home() {
           await sleep(1000);
         }}
         renderText={status => {
-          return (<Loading status={status}/>);
+          return <Loading status={status} />;
         }}
       >
         <header className={styles.header}>
-          <SwiperContainer />
+          <SwiperContainer swiperList={swiperList} />
         </header>
-        <BulletinBoard />
+        <BulletinBoard titles={titles} />
         <main className={styles.main}>
           <Tabs
             activeLineMode="fixed"
@@ -40,9 +65,7 @@ export default function Home() {
               className={styles.tab_item}
               key="digitalCollection"
             >
-              <GoodsCard />
-              <GoodsCard />
-              <GoodsCard />
+              <GoodsCardList goodsList={goodsList} />
             </Tabs.Tab>
           </Tabs>
         </main>

@@ -1,18 +1,49 @@
-import React, { useState } from "react";
-import { Form, Button, Input, Checkbox } from "antd-mobile";
+import React, { useCallback, useState } from "react";
+import { Form, Button, Input, Checkbox, Toast } from "antd-mobile";
+import { useNavigate } from "react-router-dom";
 import NavigationBar from "../components/common/NavigationBar";
+import { login } from "../api";
 
 import styles from "../assets/css/login.less";
 
 export default function Login() {
+  const navigate = useNavigate();
   const [isAgree, setIsAgree] = useState(false);
+  const handleLogin = useCallback(
+    async form => {
+      console.log(isAgree);
+      if (!isAgree) {
+        Toast.show({
+          icon: "fail",
+          content: "请先阅读并同意协议",
+        });
+        return;
+      }
+      const { code, msg } = await login(form);
+      if (code === 0) {
+        Toast.show({
+          icon: "success",
+          content: msg,
+          afterClose: () => {
+            navigate("/home");
+          },
+        });
+      } else {
+        Toast.show({
+          icon: "fail",
+          content: msg,
+        });
+      }
+    },
+    [isAgree, navigate]
+  );
   return (
     <div className={styles.login_page}>
       <NavigationBar path="/home" title="登录" />
       <div className={styles.login_main}>
         <div className={styles.login_form}>
           <Form
-            onFinish={() => {}}
+            onFinish={handleLogin}
             footer={
               <Button
                 block
@@ -29,17 +60,19 @@ export default function Login() {
               </Button>
             }
           >
-            <Form.Item name="账号" label="账号">
+            <Form.Item name="account" label="账号" rules={[{ required: true }]}>
               <Input placeholder="请输入账号" />
             </Form.Item>
-            <Form.Item name="密码" label="密码">
+            <Form.Item name="pwd" label="密码" rules={[{ required: true }]}>
               <Input placeholder="请输入密码" />
             </Form.Item>
           </Form>
           <Checkbox
             checked={isAgree}
             onChange={e => {
+              console.log(e);
               setIsAgree(e);
+              console.log(isAgree);
             }}
             style={{
               padding: "20px 12px",

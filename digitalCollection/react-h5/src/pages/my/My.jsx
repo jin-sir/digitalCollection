@@ -1,45 +1,73 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styles from "../../assets/css/my/my.less";
 import IconFont from "../../components/common/IconFont";
 import NavigationBar from "../../components/common/NavigationBar";
-import { List, Avatar, Button } from "antd-mobile";
+import { List, Avatar, Button, Toast } from "antd-mobile";
 import { useNavigate } from "react-router-dom";
+import { getUserInfo } from "../../api";
 
 export default function My() {
   const navigate = useNavigate();
-  const operateData = [
-    [
-      {
-        title: "我的订单",
-        icon: "icon-dingdan",
-        text: "",
-        path: "/order",
-      },
-      {
-        title: "我的认证",
-        icon: "icon-renzheng2",
-        text: "已认证",
-        path: "/realNameAuth",
-      },
-    ],
-    [
-      {
-        title: "关于",
-        icon: "icon-guanyu",
-        text: "",
-      },
-      {
-        title: "分享",
-        icon: "icon-fenxiang",
-        text: "",
-      },
-      {
-        title: "设置",
-        icon: "icon-shezhi",
-        text: "",
-      },
-    ],
-  ];
+  const [nick, setNick] = useState("");
+  const [uId, setUId] = useState("");
+  const [address, setAddress] = useState("");
+  const [isSign, setIsSign] = useState(false);
+  useEffect(() => {
+    getUserInfo()
+      .then(res => {
+        const { code, data } = res;
+        if (code === 0) {
+          setNick(data.nick);
+          setUId(data.uId);
+          setAddress(data.address);
+          setIsSign(data.isSign);
+        }
+      })
+      .catch(e => {
+        Toast.show({
+          icon: "fail",
+          content: "请先登录",
+          afterClose: () => {
+            navigate("/login");
+          },
+        });
+      });
+  });
+  const operateData = useMemo(() => {
+    return [
+      [
+        {
+          title: "我的订单",
+          icon: "icon-dingdan",
+          text: "",
+          path: "/order",
+        },
+        {
+          title: "我的认证",
+          icon: "icon-renzheng2",
+          text: isSign ? "已认证" : "未实名",
+          path: "/realNameAuth",
+        },
+      ],
+      [
+        {
+          title: "关于",
+          icon: "icon-guanyu",
+          text: "",
+        },
+        {
+          title: "分享",
+          icon: "icon-fenxiang",
+          text: "",
+        },
+        {
+          title: "设置",
+          icon: "icon-shezhi",
+          text: "",
+        },
+      ],
+    ];
+  }, [isSign]);
   const operateBoxs = operateData.map((it, i) => {
     const operates = it.map(operate => (
       <List.Item
@@ -61,7 +89,11 @@ export default function My() {
       </List.Item>
     ));
 
-    return <List key={i} className={styles.operate_box}>{operates}</List>;
+    return (
+      <List key={i} className={styles.operate_box}>
+        {operates}
+      </List>
+    );
   });
   return (
     <div className={styles.my_page}>
@@ -80,16 +112,14 @@ export default function My() {
             className={styles.avatar}
           />
           <div className={styles.top_box}>
-            <div className={styles.txtWeight}>cOG9Q0r6</div>
-            <div>uID {10216984}</div>
+            <div className={styles.txtWeight}>{nick}</div>
+            <div>uID {uId}</div>
           </div>
         </div>
         <div className={styles.info_bottom}>
           <div className={styles.top}>
             区块链地址：
-            <span className={styles.txtWeight}>
-              {"0x4fwejofjwefowefhweowjenfoweyweowjeoweufwef"}
-            </span>
+            <span className={styles.txtWeight}>{address}</span>
           </div>
           <div className={styles.bottom}>
             <Button
