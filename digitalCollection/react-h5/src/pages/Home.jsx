@@ -12,6 +12,7 @@ export default function Home() {
   const [titles, setTitles] = useState([]);
   const [goodsList, setGoodsList] = useState([]);
   const [swiperList, setSwiperList] = useState([]);
+  const [forceUpdate, setForceUpdate] = useState(0);
   useEffect(() => {
     getTitle().then(res => {
       const { code, data } = res;
@@ -32,11 +33,12 @@ export default function Home() {
         setSwiperList(data);
       }
     });
-  }, []);
+  }, [forceUpdate]);
   return (
     <div className={styles.home_page}>
       <PullToRefresh
         onRefresh={async () => {
+          setForceUpdate(forceUpdate + 1);
           await sleep(1000);
         }}
         renderText={status => {

@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, Image } from "antd-mobile";
+import IconFont from "../../common/IconFont";
 import styles from "./index.less";
 
 export default function index(props) {
@@ -39,12 +40,27 @@ export default function index(props) {
           </div>
         )}
         <div className={styles.author}>
-          {props.mode === 'market' ? (<span>出售人：{goodsInfo.auther}</span>) : ''}
+          {props.mode === "market" ? (
+            <span>出售人：{goodsInfo.auther}</span>
+          ) : (
+            ""
+          )}
         </div>
-        {props.mode !== 'my_digitalCollection' ? (<div className={styles.price}>
-          <i className={styles.common_icon}>￥</i>
-          {goodsInfo.price}
-        </div>) : ''}
+        {props.mode !== "my_digitalCollection" ? (
+          <div className={styles.price}>
+            <i className={styles.common_icon}>
+              <IconFont
+                style={{
+                  fontSize: "18px",
+                }}
+                type="icon-jifen"
+              />
+            </i>
+            {goodsInfo.price}
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     </Card>
   );

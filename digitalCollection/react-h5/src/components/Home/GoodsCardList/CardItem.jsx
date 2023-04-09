@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
 import { Card, Image } from "antd-mobile";
+import IconFont from "../../common/IconFont";
 import styles from "./cardItem.less";
 import { useNavigate } from "react-router-dom";
 
@@ -9,8 +10,8 @@ export default function CardItem(props) {
     navigate("/goodsDetail", {
       state: {
         goodsId: props.cId,
-        mode: 'home',
-        path: '/home'
+        mode: "home",
+        path: "/home",
       },
     });
   }, []);
@@ -45,7 +46,14 @@ export default function CardItem(props) {
           <span>{props.auther}</span>
         </div>
         <div className={styles.price}>
-          <i className={styles.common_icon}>￥ </i>
+          <i className={styles.common_icon}>
+            <IconFont
+              type="icon-jifen"
+              style={{
+                fontSize: "20px",
+              }}
+            />
+          </i>
           {props.price}
         </div>
       </div>

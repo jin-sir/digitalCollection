@@ -1,22 +1,39 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styles from "../assets/css/market.less";
 import { PullToRefresh, InfiniteScroll, Tabs, Dropdown } from "antd-mobile";
 import { sleep } from "antd-mobile/es/utils/sleep";
 import Loading from "../components/common/Loading";
 import GoodsList from "../components/Market/GoodsList";
 import IconFont from "../components/common/IconFont";
+import { getProduct } from "../api";
 
 export default function Market() {
-  const [data, setData] = useState([]);
-  const [hasMore, setHasMore] = useState(true);
-  const [filterMode, setFilterMode] = useState("asc");
-  const [filterTitle, setFilterTitle] = useState("价格升序");
-  const dropdownRef = useRef();
+  const [marketList, setMarketList] = useState([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
+  const [forceUpdate, setForceUpdate] = useState(0);
+  // const [filterMode, setFilterMode] = useState("asc");
+  // const [filterTitle, setFilterTitle] = useState("价格升序");
+  // const dropdownRef = useRef();
   async function loadMore() {
-    // const append = await mockRequest()
-    // setData(val => [...val, ...append])
-    // setHasMore(append.length > 0)
+    setPage(page + 1);
   }
+  useEffect(() => {
+    getProduct({
+      page,
+      limit: 10,
+    }).then(res => {
+      const { code, data } = res;
+      if (code === 0) {
+        if (data.length < 10) {
+          setHasMore(false);
+        } else {
+          setHasMore(true);
+        }
+        setMarketList(data);
+      }
+    });
+  }, [page, forceUpdate]);
   return (
     <div className={styles.market_page}>
       <header className={styles.header}>
@@ -47,7 +64,7 @@ export default function Market() {
           key="digitalCollection"
         >
           <div className={styles.goods_list}>
-            <Dropdown
+            {/* <Dropdown
               ref={dropdownRef}
               style={{
                 "--adm-color-background": "#fafafa",
@@ -81,16 +98,17 @@ export default function Market() {
                   </div>
                 </div>
               </Dropdown.Item>
-            </Dropdown>
+            </Dropdown> */}
             <PullToRefresh
               onRefresh={async () => {
                 await sleep(1000);
+                setForceUpdate(forceUpdate + 1);
               }}
               renderText={status => {
                 return <Loading status={status} />;
               }}
             >
-              <GoodsList />
+              <GoodsList marketList={marketList} />
               <InfiniteScroll loadMore={loadMore} hasMore={hasMore} />
             </PullToRefresh>
           </div>

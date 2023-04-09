@@ -5,8 +5,8 @@ import { NavBar } from "antd-mobile";
 export default function NavigationBar(props) {
   const navigate = useNavigate();
   const goBack = useCallback(() => {
-    navigate(props.path);
-  }, [navigate, props.path]);
+    navigate(props.path, {state: props.state});
+  }, [navigate, props]);
 
   return (
     <NavBar

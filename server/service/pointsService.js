@@ -6,7 +6,7 @@ const Points = require("../model/Points");
  * @returns
  */
 exports.addPoints = async function (pointsObj) {
-  console.log(Points.create)
+  console.log(Points.create);
   const result = await Points.create(pointsObj);
   if (result) {
     return result.toJSON();
@@ -16,8 +16,8 @@ exports.addPoints = async function (pointsObj) {
 
 /**
  * 获取积分
- * @param {*} uId 
- * @returns 
+ * @param {*} uId
+ * @returns
  */
 exports.queryPoints = async function (uId) {
   const result = await Points.findOne({
@@ -33,19 +33,20 @@ exports.queryPoints = async function (uId) {
 
 /**
  * 添加积分
- * @param {*} uId 
- * @param {*} points 
- * @param {*} sign_time 
- * @returns 
+ * @param {*} uId
+ * @param {*} points
+ * @param {*} sign_time
+ * @returns
  */
 exports.updatePoints = async function (uId, points, sign_time) {
-  const result = await Points.update(
-    { points, sign_time },
-    {
-      where: {
-        uId,
-      },
-    }
-  );
+  const params = { points };
+  if (sign_time) {
+    params.sign_time = sign_time;
+  }
+  const result = await Points.update(params, {
+    where: {
+      uId,
+    },
+  });
   return result;
 };

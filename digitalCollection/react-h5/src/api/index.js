@@ -1,7 +1,7 @@
 import axios from "./request";
 
-// const basePath = "http://192.168.123.225:12306";
-const basePath = "http://localhost:12306";
+const basePath = "http://192.168.123.225:12306";
+// const basePath = "http://localhost:12306";
 const userPath = "/api/client/user";
 const myPath = "/api/client/my";
 const announcementPath = "/api/client/announcement";
@@ -113,6 +113,18 @@ const cancelSelling = data => {
     .post(`${basePath}${myPath}/cancelSelling`, data)
     .then(res => res.data);
 };
+
+const getProduct = params => {
+  return axios
+    .get(`${basePath}${marketPath}/getProduct`, { params })
+    .then(res => res.data);
+};
+
+const getProductList = params => {
+  return axios
+    .get(`${basePath}${marketPath}/getProductList`, { params })
+    .then(res => res.data);
+};
 export {
   getVeriCode,
   resigter,
@@ -133,4 +145,6 @@ export {
   getProductInfo,
   publishCollection,
   cancelSelling,
+  getProduct,
+  getProductList,
 };

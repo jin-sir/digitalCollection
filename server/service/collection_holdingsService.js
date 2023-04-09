@@ -99,3 +99,18 @@ exports.updateState = async function (uId, cId, seri_num, state) {
   );
   return result;
 };
+
+/**
+ * 修改状态
+ * @returns
+ */
+exports.deleteHoldingGoods = async function (uId, cId, seri_num) {
+  const result = await Collection_holdings.destroy({
+    where: {
+      uId,
+      cId,
+      seri_num,
+    },
+  });
+  return result;
+};

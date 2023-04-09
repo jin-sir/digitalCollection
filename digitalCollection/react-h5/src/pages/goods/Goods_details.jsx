@@ -15,7 +15,8 @@ import {
 
 export default function Goods_details() {
   const location = useLocation();
-  const { goodsId, mode, path } = location.state;
+  const { goodsId, path } = location.state;
+  const [mode, setMode] = useState(location.state.mode);
   const [goodsInfo, setGoodsInfo] = useState({});
   const [isBusiness, setIsBusiness] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -30,21 +31,33 @@ export default function Goods_details() {
       data = { cId: goodsId };
     } else {
       getProduct = getProductInfo;
-      data = { cId: goodsId, seri_num: location.state.seri_num };
+      data = { cId: goodsId, seri_num: location.state.seri_num, mode };
     }
     getProduct(data).then(res => {
       const { code, data } = res;
       console.log(data);
       if (code === 0 && data !== null) {
+        if (data.mode) {
+          console.log(data.mode);
+          setMode(data.mode);
+        }
         setGoodsInfo(data);
         setIsBusiness(data.isBusiness);
       }
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [goodsId, count]);
   const createOrderFn = useCallback(() => {
-    const createFn = mode === "home" ? createByAdmin : createByMarket;
-    createFn({ cId: goodsId }).then(res => {
+    let createFn;
+    let data;
+    if (mode === "home") {
+      createFn = createByAdmin;
+      data = { cId: goodsId };
+    } else {
+      createFn = createByMarket;
+      data = { cId: goodsId, seri_num: location.state.seri_num };
+    }
+    createFn(data).then(res => {
       Toast.show({
         content: res.msg,
       });
@@ -56,6 +69,7 @@ export default function Goods_details() {
       seri_num: goodsInfo.seri_num,
       sell_price: +sellPrice,
     };
+    console.log(data);
     publishCollection(data).then(res => {
       const { code, msg } = res;
       setCount(count + 1);
@@ -70,8 +84,8 @@ export default function Goods_details() {
       }
       setVisible(false);
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [goodsInfo]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [goodsInfo, sellPrice]);
   const openPopup = useCallback(() => {
     if (goodsInfo.state) {
       setVisible(true);
@@ -89,11 +103,26 @@ export default function Goods_details() {
         });
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [goodsInfo]);
+  console.log({
+    cId: goodsInfo.cId,
+    cName: goodsInfo.cName,
+    circulation: goodsInfo.circulation,
+    sumstock: location.state.sumstock,
+  });
   return (
     <>
-      <NavigationBar path={path} title={goodsInfo.cName} />
+      <NavigationBar
+        path={path}
+        title={goodsInfo.cName}
+        state={{
+          cId: goodsInfo.cId,
+          cName: goodsInfo.cName,
+          circulation: goodsInfo.circulation,
+          sumstock: location.state.sumstock,
+        }}
+      />
       <div className={styles.goodsDetail_page}>
         <GoodsCard goodsInfo={goodsInfo} mode={mode} />
         {mode === "my_digitalCollection" ? (
@@ -136,7 +165,7 @@ export default function Goods_details() {
           <Input
             value={sellPrice}
             onChange={value => {
-              if (+value < goodsInfo.limit_price) {
+              if (+value <= goodsInfo.limit_price) {
                 setSellPrice(value);
               } else {
                 Toast.show({

@@ -1,4 +1,5 @@
 const Collection_selling = require("../model/Collection_selling");
+const Collection_sell_manage = require("../model/Collection_sell_manage")
 
 /**
  * 发布寄售
@@ -55,9 +56,6 @@ exports.queryGoodsListByPage = async function (
       ["createdAt", "asc"],
     ],
   });
-  if (result) {
-    return result.toJSON();
-  }
   return result;
 };
 
@@ -70,6 +68,17 @@ exports.queryGoods = async function (cId, seri_num) {
     where: {
       cId,
       seri_num,
+    },
+    include: {
+      attributes: [
+        "url",
+        "cName",
+        "auther",
+        "circulation",
+        "isBusiness",
+        "limit_price",
+      ],
+      model: Collection_sell_manage,
     },
   });
   if (result) {
@@ -95,9 +104,6 @@ exports.updateLockTime = async function (cId, seri_num, lock_time) {
       },
     }
   );
-  if (result) {
-    return result.toJSON();
-  }
   return result;
 };
 

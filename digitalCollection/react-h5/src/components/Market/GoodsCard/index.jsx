@@ -1,26 +1,28 @@
 import React, { useCallback } from "react";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 import { Card, Image } from "antd-mobile";
+import IconFont from "../../common/IconFont";
 import styles from "./index.less";
 
-export default function GoodsCard() {
-  const navigate = useNavigate()
+export default function GoodsCard(props) {
+  const navigate = useNavigate();
+  console.log(props)
   const switchToGoodsPage = useCallback(() => {
-    navigate('/goods?gId=3001')
-  }, [navigate])
+    navigate("/goods", {
+      state: {
+        cId: props.cId,
+        cName: props.cName,
+        circulation: props.circulation,
+        sumstock: props.sumstock
+      }
+    });
+  }, [navigate]);
   return (
     <Card
-    onClick={switchToGoodsPage}
-      title={
-        <Image
-          src={
-            "https://file.18art.art/file/oss/nft/image/nft-goods/dece5a0e68b147a398f0ebd8aa55a199.jpg?style=st6"
-          }
-          fit="fill"
-        />
-      }
+      onClick={switchToGoodsPage}
+      title={<Image src={props.url} fit="fill" />}
       style={{
-        position: 'relative',
+        position: "relative",
         padding: 0,
       }}
       bodyStyle={{
@@ -30,18 +32,24 @@ export default function GoodsCard() {
         padding: 0,
       }}
     >
-        <div className={styles.circulation}>流通量: {405}</div>
+      <div className={styles.circulation}>流通量: {props.sumstock}</div>
       <div className={styles.desc_container}>
-        <p className={styles.title}>
-          禾下乘凉梦
-        </p>
+        <p className={styles.title}>{props.cName}</p>
         <div className={styles.num_box}>
           <span>限量</span>
-          784份
+          {props.circulation}份
         </div>
         <div className={styles.price}>
-          <i className={styles.common_icon}>￥ </i>
-          98
+          限价:
+          <i className={styles.common_icon}>
+            <IconFont
+              type="icon-jifen"
+              style={{
+                fontSize: "14px",
+              }}
+            />
+          </i>
+          {props.limit_price}
         </div>
       </div>
     </Card>

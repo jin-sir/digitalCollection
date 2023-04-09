@@ -75,9 +75,6 @@ exports.queryMarketByPage = async function (page = 1, limit = 5) {
     limit: limit,
     order: [["createdAt", "desc"]],
   });
-  if (result) {
-    return result.toJSON();
-  }
   return result;
 };
 
