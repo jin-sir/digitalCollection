@@ -6,7 +6,8 @@ const router = express.Router();
 router.post(
   "/",
   asyncHandler(async (req, resp, next) => {
-    return await adminServ.login(req.body);
+    const result = await adminServ.login(req.body);
+    return [result, 0, 'success']
   })
 );
 router.post(

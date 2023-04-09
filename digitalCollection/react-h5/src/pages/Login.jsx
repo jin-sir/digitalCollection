@@ -64,7 +64,7 @@ export default function Login() {
               <Input placeholder="请输入账号" />
             </Form.Item>
             <Form.Item name="pwd" label="密码" rules={[{ required: true }]}>
-              <Input placeholder="请输入密码" />
+              <Input type="password" placeholder="请输入密码" />
             </Form.Item>
           </Form>
           <Checkbox
@@ -83,6 +83,15 @@ export default function Login() {
           >
             已阅读并同意《用户服务协议》《隐私权政策》
           </Checkbox>
+          <Button
+            onClick={() => {
+              navigate("/register");
+            }}
+            block
+            style={{ marginTop: "10px" }}
+          >
+            注册
+          </Button>
         </div>
       </div>
     </div>

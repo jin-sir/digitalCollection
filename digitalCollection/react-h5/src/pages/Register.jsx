@@ -3,8 +3,10 @@ import { Form, Button, Input, Checkbox, Toast } from "antd-mobile";
 import NavigationBar from "../components/common/NavigationBar";
 import styles from "../assets/css/register.less";
 import { getVeriCode, resigter } from "../api";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
+  const navigate = useNavigate();
   const [form] = Form.useForm();
   const [isAgree, setIsAgree] = useState(false);
   const [isSendCode, setSendCode] = useState(false);
@@ -76,6 +78,9 @@ export default function Register() {
         Toast.show({
           icon: "success",
           content: msg,
+          afterClose: () => {
+            navigate("/login");
+          },
         });
       } else {
         Toast.show({
@@ -120,9 +125,10 @@ export default function Register() {
               <Input placeholder="请输入账号" />
             </Form.Item>
             <Form.Item name="pwd" label="密码" rules={[{ required: true }]}>
-              <Input placeholder="请输入密码" />
+              <Input type="password" placeholder="请输入密码" />
             </Form.Item>
             <Form.Item
+              type="password"
               name="again_password"
               label="确认密码"
               rules={[{ required: true }]}

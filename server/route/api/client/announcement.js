@@ -15,7 +15,8 @@ router.get(
 router.get(
   "/getAnnouncementDetail",
   asyncHandler(async (req) => {
-    return await announcementService.getAnnouncementById(req.body.infoId);
+      const result = await announcementService.getAnnouncementById(req.query.infoId);
+      return [result, 0, 'success']
   })
 );
 router.get(

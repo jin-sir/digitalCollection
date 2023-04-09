@@ -4,6 +4,7 @@ import { Image, Popup } from "antd-mobile";
 import styles from "./index.less";
 import { getUserProductSeriNum } from "../../../api/index";
 import { useNavigate } from "react-router-dom";
+import { basePath } from "../../../api";
 
 export default function DigitalCollectionList(props) {
     const navigate = useNavigate()
@@ -39,7 +40,7 @@ export default function DigitalCollectionList(props) {
         }}
       >
         <div className={styles.popup_content}>
-          <Image className={styles.img} src={collectionInfo.url} fit="fill" />
+          <Image className={styles.img} src={basePath+collectionInfo.url} fit="fill" />
           <div className={styles.info_box}>
             <div className={styles.cName}>{collectionInfo.cName}</div>
             <div className={styles.num}>共{collectionInfo.count}个</div>

@@ -8,12 +8,27 @@
     >
       <el-table-column prop="id" label="id" width="260"> </el-table-column>
       <el-table-column prop="tagname" label="标签" width="320">
+        <template slot-scope="scope">
+          <el-image
+            style="width: 100px; height: 100px"
+            :src="`http://localhost:12306${scope.row.url}`"
+            fit="fit"
+          ></el-image>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-switch
+            :value="scope.row.isVisible"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+            @change="openVisible(scope.row)"
+          >
+          </el-switch>
+        </template>
       </el-table-column>
       <el-table-column label="操作">
         <span slot-scope="scope" class="btn-wrapper">
-          <el-button @click="handleClick(scope.row)" type="primary" size="small"
-            >编辑</el-button
-          >
           <el-button @click="handleDelete(scope.row)" type="danger" size="small"
             >删除</el-button
           >
@@ -34,6 +49,7 @@ export default {
       tagAll: [],
       isLoading: false,
       tagList: [],
+      isVisible: false,
     };
   },
   methods: {
@@ -44,7 +60,8 @@ export default {
       });
     },
     handleDelete(row) {
-      axios.delete(`/api/tag/${row.id}`).then(r => {
+      this.isLoading = true;
+      axios.delete(`/api/admin/swiper/delSwiper?sid=${row.id}`).then(r => {
         if (r.data.code === 0 && r.data.data) {
           this.getTags();
           this.$message({
@@ -60,12 +77,26 @@ export default {
       });
     },
     async getTags() {
-      const r = await axios.get("/api/tag");
+      const r = await axios.get("/api/admin/swiper/swiperlistAll");
       this.tagList = r.data.data;
+      this.isLoading = false;
     },
     currentChange(cur) {
       const limit = 8;
       this.getArticle(cur, limit);
+    },
+    openVisible(row) {
+      this.isLoading = true;
+      axios
+        .post("/api/admin/swiper/updateSwiperVisible", {
+          sId: row.id,
+          isVisible: !row.isVisible,
+        })
+        .then(res => {
+          if (res.data.code === 0) {
+            this.getTags();
+          }
+        });
     },
   },
 };

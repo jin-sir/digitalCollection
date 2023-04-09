@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Card, Image } from "antd-mobile";
 import IconFont from "../../common/IconFont";
 import styles from "./index.less";
+import {basePath} from '../../../api'
 
 export default function GoodsCard(props) {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ export default function GoodsCard(props) {
   return (
     <Card
       onClick={switchToGoodsPage}
-      title={<Image src={props.url} fit="fill" />}
+      title={<Image src={basePath+props.url} fit="fill" />}
       style={{
         position: "relative",
         padding: 0,

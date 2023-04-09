@@ -1,4 +1,5 @@
 .announcement_page {
+
     width: 100%;
 
     :global {
@@ -7,5 +8,18 @@
             max-height: calc(100vh - var(--browser-address-bar, 0px) - 140px);
         }
     }
-
+    .info_content {
+        position: relative;
+        .reLoad {
+            position: absolute;
+            top: 10px;
+            right: 16px;
+            z-index: 9999;
+            // padding: 2px;
+            // border: 1px solid;
+            // border-radius: 50%;
+        }
+    
+    }
+    
 }

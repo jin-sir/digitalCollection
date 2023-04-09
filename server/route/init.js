@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-
 const history = require("connect-history-api-fallback");
 app.use(history());
 
@@ -17,10 +16,11 @@ app.use(express.urlencoded({ extended: true }));
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
-const whiteList = ["null", "http://localhost:3000", "http://192.168.123.225:3000"];
+const whiteList = ["null", "http://localhost:3000", "http://192.168.123.225:3000", "http://localhost:8080"];
 app.use(
   cors({
     origin(origin, callback) {
+      console.log(origin)
       if (!origin) {
         callback(null, "*");
         return;
@@ -59,6 +59,8 @@ app.use("/api/admin/sellProduct", require("./api/admin/sellProduct"));
 app.use("/api/admin/announcement", require("./api/admin/announcement"));
 
 app.use("/api/admin/swiper", require("./api/admin/swiper"));
+
+app.use("/api/admin/login", require("./api/admin/admin"));
 
 app.use(require("./errorMiddleware"));
 

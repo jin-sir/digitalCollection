@@ -35,6 +35,17 @@ exports.getTitle = async function (page = 1, limit = 5) {
   return result;
 };
 
+exports.getTitleAll = async function (page = 1, limit = 5) {
+  const result = await Announcement.findAndCountAll({
+    attributes: { exclude: ["content"] },
+    offset: (page - 1) * limit,
+    limit: +limit,
+    order: [["createdAt", "DESC"]],
+  });
+  return result;
+};
+
+
 /**
  * 根据搜索获取文章
  * @param {*} wd

@@ -6,7 +6,7 @@
           <h1>网站概要</h1>
           <div>
             <router-link :to="{ name: 'articleCreate' }">
-              <el-button type="success">撰写新文章</el-button>
+              <el-button type="success">撰写公告</el-button>
             </router-link>
           </div>
         </div>

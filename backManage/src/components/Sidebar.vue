@@ -14,26 +14,30 @@
 
         <el-submenu index="2">
           <template slot="title"
-            ><i class="el-icon-document"></i>文章管理</template
+            ><i class="el-icon-document"></i>公告管理</template
           >
-          <el-menu-item index="/article/list">文章列表</el-menu-item>
-          <el-menu-item index="/article/create">添加文章</el-menu-item>
+          <el-menu-item index="/article/list">公告列表</el-menu-item>
+          <el-menu-item index="/article/create">发布公告</el-menu-item>
         </el-submenu>
 
         <el-submenu index="3">
           <template slot="title"
-            ><i class="el-icon-star-off"></i>标签管理</template
+            ><i class="el-icon-star-off"></i>轮播图</template
           >
-          <el-menu-item index="/tag/list">标签列表</el-menu-item>
-          <el-menu-item index="/tag/create">添加标签</el-menu-item>
+          <el-menu-item index="/tag/list">轮播图列表</el-menu-item>
+          <el-menu-item index="/tag/create">添加轮播图</el-menu-item>
         </el-submenu>
-        <el-menu-item index="/user/info"
-          ><i class="el-icon-info"></i>个人信息</el-menu-item
-        >
+        <el-submenu index="4">
+          <template slot="title"
+            ><i class="el-icon-star-off"></i>藏品管理</template
+          >
+          <el-menu-item index="/collection/list">藏品列表</el-menu-item>
+          <el-menu-item index="/collection/create">添加藏品</el-menu-item>
+        </el-submenu>
 
-        <el-menu-item index="/user/edit"
+        <!-- <el-menu-item index="/user/edit"
           ><i class="el-icon-user"></i>用户设置</el-menu-item
-        >
+        > -->
       </el-menu>
     </el-col>
   </el-row>

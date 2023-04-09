@@ -50,6 +50,21 @@ const routes = [
         component: () => import("@/components/ArticleCreate.vue")
       },
       {
+        path: "/collection/list",
+        name: "collectionList",
+        component: () => import("@/components/CollectionList.vue")
+      },
+      {
+        path: "/collection/create",
+        name: "collectionCreate",
+        component: () => import("@/components/CollectionCreate.vue")
+      },
+      {
+        path: "/collection/edit/:id",
+        name: "collectionEdit",
+        component: () => import("@/components/CollectionCreate.vue")
+      },
+      {
         path: "/dashboard",
         name: "dashboard",
         component: () => import("@/components/Dashboard.vue")

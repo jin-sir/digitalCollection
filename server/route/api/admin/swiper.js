@@ -6,7 +6,8 @@ const router = express.Router();
 router.get(
   "/swiperlistAll",
   asyncHandler(async () => {
-    return await swiperService.querySwiperAll();
+    const result = await swiperService.querySwiperAll();
+    return [result, 0, "success"];
   })
 );
 router.post(
@@ -21,10 +22,24 @@ router.post(
   })
 );
 
+router.post(
+  "/updateSwiperVisible",
+  asyncHandler(async req => {
+    console.log(req.body.sId,
+      req.body.isVisible)
+    const result = await swiperService.updateSwiperVisible(
+      req.body.sId,
+      req.body.isVisible
+    );
+    return [result, 0, "success"];
+  })
+);
+
 router.delete(
   "/delSwiper",
   asyncHandler(async req => {
-    return await swiperService.delSwiper(req.body.sid);
+    const result = await swiperService.delSwiper(req.query.sid);
+    return [result, 0, "success"];
   })
 );
 

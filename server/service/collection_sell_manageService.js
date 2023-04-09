@@ -21,9 +21,6 @@ exports.queryCollection_sell_manage = async function () {
   const result = await Collection_sell_manage.findAll({
     order: [["createdAt", "desc"]],
   });
-  if (result) {
-    return result.toJSON();
-  }
   return result;
 };
 
@@ -126,9 +123,6 @@ exports.updateLimit_price = async function (cId, limit_price) {
       },
     }
   );
-  if (result) {
-    return result.toJSON();
-  }
   return result;
 };
 

@@ -5,6 +5,7 @@ import NavigationBar from "../../components/common/NavigationBar";
 import { List, Avatar, Button, Toast } from "antd-mobile";
 import { useNavigate } from "react-router-dom";
 import { getUserInfo } from "../../api";
+import operationCookie from "../../utils/cookie";
 
 export default function My() {
   const navigate = useNavigate();
@@ -97,6 +98,7 @@ export default function My() {
       </List>
     );
   });
+  console.log(operationCookie.getCookie("token") == true);
   return (
     <div className={styles.my_page}>
       <NavigationBar backArrow={false} title="我的" />
@@ -156,6 +158,28 @@ export default function My() {
         </div>
       </div>
       {operateBoxs}
+      {operationCookie.getCookie("token") ? (
+        <Button
+          onClick={() => {
+            operationCookie.removeCookie("token");
+            Toast.show({
+              icon: "success",
+              content: "退出成功",
+              afterClose: () => {
+                navigate("/login");
+              },
+            });
+          }}
+          block
+          shape="rounded"
+          color="danger"
+          style={{ marginTop: "10px" }}
+        >
+          退出登录
+        </Button>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

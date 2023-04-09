@@ -9,7 +9,7 @@ const Admin = sequelize.define(
       allowNull: false,
     },
     pwd: {
-      type: DataTypes.STRING(16),
+      type: DataTypes.STRING,
       allowNull: false,
     },
   },

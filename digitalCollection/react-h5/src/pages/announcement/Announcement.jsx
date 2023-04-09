@@ -3,37 +3,52 @@ import { Tabs, InfiniteScroll } from "antd-mobile";
 import NavigationBar from "../../components/common/NavigationBar";
 import InfoList from "../../components/Announcement/InfoList";
 import styles from "../../assets/css/announcement/announcement.less";
+import IconFont from "../../components/common/IconFont";
 import { getTitle } from "../../api";
 
 export default function Announcement() {
   const [titles, setTitles] = useState([]);
   const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
-  const [loading, setLoading] = useState(false)
+  const [hasMore, setHasMore] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [forceUpdate, setForceUpdate] = useState(0);
   useEffect(() => {
     getTitle({ page, limit: 10 }).then(res => {
       const { code, data } = res;
       if (code === 0) {
         setTitles([...titles, ...data]);
-        setLoading(false)
+        setLoading(false);
       }
-      if (data.length === 0) {
+      if (data.length < 10) {
         setHasMore(false);
+      } else {
+        setHasMore(true);
       }
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, forceUpdate]);
   async function loadMore() {
     if (loading) {
       return;
     }
-    setLoading(true)
+    setLoading(true);
     setPage(page + 1);
   }
   return (
     <div className={styles.announcement_page}>
       <NavigationBar backArrow={false} title="发现" />
       <div className={styles.info_content}>
+        <IconFont
+          onClick={() => {
+            setForceUpdate(forceUpdate + 1);
+            setTitles([])
+          }}
+          className={styles.reLoad}
+          type="icon-shuaxin"
+          style={{
+            fontSize: "28px",
+          }}
+        />
         <Tabs
           activeLineMode="fixed"
           stretch={false}

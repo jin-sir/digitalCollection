@@ -19,9 +19,6 @@ exports.addSwiper = async function (swiperObj) {
  */
 exports.querySwiperAll = async function () {
   const result = await Swiper.findAll();
-  if (result) {
-    return result.toJSON();
-  }
   return result;
 };
 
@@ -45,6 +42,7 @@ exports.querySwiperByVisible = async function () {
  * @returns
  */
 exports.updateSwiperVisible = async function (id, isVisible) {
+  console.log(id, isVisible)
   const result = await Swiper.update(
     { isVisible },
     {
@@ -53,9 +51,7 @@ exports.updateSwiperVisible = async function (id, isVisible) {
       },
     }
   );
-  if (result) {
-    return result.toJSON();
-  }
+  console.log(result)
   return result;
 };
 
@@ -71,8 +67,5 @@ exports.delSwiper = async function (id) {
       id,
     },
   });
-  if (result) {
-    return result.toJSON();
-  }
   return result;
 };

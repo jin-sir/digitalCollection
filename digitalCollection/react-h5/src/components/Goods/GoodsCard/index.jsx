@@ -2,6 +2,7 @@ import React from "react";
 import { Card, Image } from "antd-mobile";
 import IconFont from "../../common/IconFont";
 import styles from "./index.less";
+import { basePath } from "../../../api";
 
 export default function index(props) {
   const goodsInfo = props.goodsInfo;
@@ -9,7 +10,7 @@ export default function index(props) {
     <Card
       title={
         <Image
-          src={goodsInfo.url}
+          src={basePath + goodsInfo.url}
           style={{ borderRadius: 25, transform: "translateY(-15px)" }}
           fit="fill"
         />

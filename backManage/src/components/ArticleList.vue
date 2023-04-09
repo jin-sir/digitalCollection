@@ -7,17 +7,15 @@
       style="width: 100%;min-width:980px"
     >
       <el-table-column prop="id" label="id" width="260"> </el-table-column>
-      <el-table-column prop="title" label="文章" width="260"> </el-table-column>
-      <el-table-column prop="pathName" label="文章路径" width="260">
-      </el-table-column>
+      <el-table-column prop="title" label="公告标题" width="360"> </el-table-column>
       <el-table-column
         prop="tag"
         label="标签"
-        width="180"
+        width="200"
         :formatter="dealTag"
       ></el-table-column>
       <el-table-column label="操作">
-        <span slot-scope="scope"  class="btn-wrapper">
+        <span slot-scope="scope" class="btn-wrapper">
           <el-button @click="handleClick(scope.row)" type="primary" size="small"
             >编辑</el-button
           >
@@ -52,25 +50,26 @@ export default {
       tagAll: [],
       isLoading: false,
       articleList: [],
-      total: 0
+      total: 0,
     };
   },
   methods: {
     handleClick(row) {
       this.$router.push({
-        path: `/article/edit/${row.id}`
+        path: `/article/edit/${row.id}`,
       });
     },
     handleDelete(row) {
+      this.isLoading = true
       const id = row.id;
       axios
-        .delete(`/api/blogArticle/${id}`)
+        .get(`/api/admin/announcement/deleteAnnouncement?infoId=${id}`)
         .then(r => {
           console.log(r);
           if (r.data.code === 0) {
             this.$message({
               message: "文章已删除成功",
-              type: "success"
+              type: "success",
             });
             this.getArticle();
           }
@@ -78,7 +77,7 @@ export default {
         .catch(err => {
           this.$message({
             message: err.response.data.msg,
-            type: "error"
+            type: "error",
           });
           console.log(err.response);
         });
@@ -91,15 +90,15 @@ export default {
       this.getArticle(cur, limit);
     },
     getArticle(page, limit) {
-      axios.get("/api/blogArticle", { params: { page, limit } }).then(r => {
-        this.articleList = r.data.data.datas.map(item => {
-          item.tag = JSON.parse(item.tag);
-          return item;
+      axios
+        .get("/api/admin/announcement/getTitleAll", { params: { page, limit } })
+        .then(r => {
+          this.articleList = r.data.data.rows
+          this.total = r.data.data.count;
+          this.isLoading = false
         });
-        this.total = r.data.data.total;
-      });
-    }
-  }
+    },
+  },
 };
 </script>
 

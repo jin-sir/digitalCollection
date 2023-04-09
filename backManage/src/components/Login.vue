@@ -11,7 +11,7 @@
           >
             <p class="align-center" label-width="0">{{ title }}</p>
             <el-form-item label="账号">
-              <el-input auto-complete="on" v-model="form.username"></el-input>
+              <el-input auto-complete="on" v-model="form.account"></el-input>
             </el-form-item>
             <el-form-item label="密码">
               <el-input
@@ -39,36 +39,36 @@ export default {
     return {
       title: "",
       form: {
-        username: "",
-        pwd: ""
-      }
+        account: "",
+        pwd: "",
+      },
     };
   },
   methods: {
     async onSubmit() {
-      const r = await axios.post("/api/login", this.form);
+      const r = await axios.post("/api/admin/login", this.form);
       console.log(r);
       if (r.data.data) {
         this.isLogin(r.data.data);
         window.localStorage.setItem("token", r.data.data.pwd);
-        window.localStorage.setItem("username", r.data.data.username);
+        window.localStorage.setItem("username", "admin");
         this.$router.push({
-          path: "/"
+          path: "/",
         });
       } else {
         this.$message({
           type: "error",
-          message: "用户名或密码错误~~"
+          message: "用户名或密码错误~~",
         });
       }
     },
-    ...mapMutations(["isLogin"])
+    ...mapMutations(["isLogin"]),
   },
   mounted() {
     // this.$store.dispatch('FETCH_OPTIONS').then(() => {
     //   this.title = this.$store.state.siteInfo['title'].value || ''
     // })
-  }
+  },
 };
 </script>
 

@@ -1,8 +1,9 @@
 import React, { useCallback } from "react";
 import { Card, Image } from "antd-mobile";
 import IconFont from "../../common/IconFont";
-import styles from "./cardItem.less";
+import styles from "./card.less";
 import { useNavigate } from "react-router-dom";
+import { basePath } from "../../../api";
 
 export default function CardItem(props) {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ export default function CardItem(props) {
     <Card
       title={
         <Image
-          src={props.url}
+          src={basePath + props.url}
           style={{ borderRadius: 25, transform: "translateY(-15px)" }}
           fit="fill"
         />

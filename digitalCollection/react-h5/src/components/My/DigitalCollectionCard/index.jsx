@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import { Card, Image } from "antd-mobile";
 import styles from "./index.less";
+import { basePath } from "../../../api";
 
 export default function DigitalCollectionCard(props) {
   const switchToGoodsPage = useCallback(() => {
@@ -15,7 +16,12 @@ export default function DigitalCollectionCard(props) {
     <>
       <Card
         onClick={switchToGoodsPage}
-        title={<Image src={props.t_collection_sell_manage.url} fit="fill" />}
+        title={
+          <Image
+            src={basePath + props.t_collection_sell_manage.url}
+            fit="fill"
+          />
+        }
         style={{
           position: "relative",
           padding: 0,
