@@ -29,7 +29,8 @@ router.post(
 router.post(
   "/openBusiness",
   asyncHandler(async req => {
-    return await collection_sell_manageService.updateIsBusiness(req.body.cId, req.body.isBusiness);
+    const result = await collection_sell_manageService.updateIsBusiness(req.body.cId, req.body.isBusiness);
+    return [result, 0, 'success']
   })
 );
 

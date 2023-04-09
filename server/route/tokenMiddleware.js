@@ -12,6 +12,8 @@ const needTokenApi = [
   { method: "POST", path: "/api/client/order/createByAdmin" },
   { method: "POST", path: "/api/client/user/realname" },
   { method: "POST", path: "/api/client/market/getProductInfo" },
+  { method: "POST", path: "/api/client/my/publishCollection" },
+  { method: "POST", path: "/api/client/my/cancelSelling" },
 ];
 
 // 用于解析token

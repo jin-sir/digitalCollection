@@ -20,17 +20,22 @@ exports.addCollection_holdings = async function (obj) {
  */
 exports.queryCollection_holdings = async function (uId, page = 1, limit = 10) {
   const result = await Collection_holdings.findAll({
-    attributes: ['cId', [Sequelize.fn('COUNT', Sequelize.col('t_collection_holdings.cId')), 'count']],
+    attributes: [
+      "cId",
+      [
+        Sequelize.fn("COUNT", Sequelize.col("t_collection_holdings.cId")),
+        "count",
+      ],
+    ],
     where: {
-        uId,
-        state: true
+      uId,
     },
     offset: (page - 1) * limit,
     limit: limit,
-    group: 'cId',
+    group: "cId",
     order: [["createdAt", "desc"]],
     include: {
-      attributes: ['url', 'cName', 'auther', 'circulation'],
+      attributes: ["url", "cName", "auther", "circulation"],
       model: Collection_sell_manage,
     },
   });
@@ -40,9 +45,8 @@ exports.queryCollection_holdings = async function (uId, page = 1, limit = 10) {
 exports.queryCollectionByCId = async function (uId, cId) {
   const result = await Collection_holdings.findAll({
     where: {
-        uId,
-        cId,
-        state: true
+      uId,
+      cId,
     },
     order: [["createdAt", "desc"]],
   });
@@ -61,12 +65,37 @@ exports.queryGoods = async function (uId, cId, seri_num) {
       seri_num,
     },
     include: {
-      attributes: ['url', 'cName', 'auther', 'circulation', 'isBusiness'],
+      attributes: [
+        "url",
+        "cName",
+        "auther",
+        "circulation",
+        "isBusiness",
+        "limit_price",
+      ],
       model: Collection_sell_manage,
     },
   });
   if (result) {
     return result.toJSON();
   }
+  return result;
+};
+
+/**
+ * 修改状态
+ * @returns
+ */
+exports.updateState = async function (uId, cId, seri_num, state) {
+  const result = await Collection_holdings.update(
+    { state },
+    {
+      where: {
+        uId,
+        cId,
+        seri_num,
+      },
+    }
+  );
   return result;
 };

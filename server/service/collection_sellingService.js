@@ -38,14 +38,22 @@ exports.queryCollection_selling = async function (uId, page = 1, limit = 10) {
  * 获取商品列表
  * @returns
  */
-exports.queryGoodsListByPage = async function (cId, page = 1, limit = 10, sort) {
+exports.queryGoodsListByPage = async function (
+  cId,
+  page = 1,
+  limit = 10,
+  sort
+) {
   const result = await Collection_selling.findAll({
     where: {
       cId,
     },
     offset: (page - 1) * limit,
     limit: limit,
-    order: [["selling_price", sort], ['createdAt', 'asc']],
+    order: [
+      ["selling_price", sort],
+      ["createdAt", "asc"],
+    ],
   });
   if (result) {
     return result.toJSON();
@@ -95,24 +103,37 @@ exports.updateLockTime = async function (cId, seri_num, lock_time) {
 
 /**
  * 修改寄售状态
- * @param {*} cId 
- * @param {*} seri_num 
- * @param {*} lock_time 
- * @returns 
+ * @param {*} cId
+ * @param {*} seri_num
+ * @param {*} lock_time
+ * @returns
  */
 exports.updateSellState = async function (cId, seri_num, sell_state) {
-    const result = await Collection_selling.update(
-      { sell_state },
-      {
-        where: {
-          cId,
-          seri_num,
-        },
-      }
-    );
-    if (result) {
-      return result.toJSON();
+  const result = await Collection_selling.update(
+    { sell_state },
+    {
+      where: {
+        cId,
+        seri_num,
+      },
     }
-    return result;
-  };
-  
+  );
+  if (result) {
+    return result.toJSON();
+  }
+  return result;
+};
+
+// 删除记录
+
+exports.deleteSellingLog = async function (uId, cId, seri_num) {
+  const result = await Collection_selling.destroy({
+    where: {
+      uId,
+      cId,
+      seri_num,
+    },
+  });
+  console.log(result)
+  return result;
+};

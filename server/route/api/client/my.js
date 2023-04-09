@@ -1,5 +1,7 @@
 const userService = require("../../../service/userService");
 const collection_holdingsService = require("../../../service/collection_holdingsService");
+const collection_sell_manageService = require("../../../service/collection_sell_manageService");
+const collection_sellingService = require("../../../service/collection_sellingService");
 const pointsService = require("../../../service/pointsService");
 const express = require("express");
 const { asyncHandler } = require("../../getSendResult");
@@ -86,6 +88,88 @@ router.get(
     } else {
       return [null, 0, "今天已签到"];
     }
+  })
+);
+// 发布寄售
+router.post(
+  "/publishCollection",
+  asyncHandler(async req => {
+    const product = await collection_sell_manageService.queryProductInfo(
+      req.body.cId
+    );
+    console.log(product);
+    if (!product.isBusiness) {
+      return [null, 1, "藏品尚未开启寄售"];
+    }
+    const isSell = await collection_holdingsService.queryGoods(
+      req.uId,
+      req.body.cId,
+      req.body.seri_num
+    );
+    if (!isSell.state) {
+      return [null, 1, "藏品已寄售"];
+    }
+    const data = {
+      cId: req.body.cId,
+      uId: req.uId,
+      seri_num: req.body.seri_num,
+      selling_price: req.body.sell_price,
+      selling_state: false,
+      lock_time: moment(new Date(0)).format("YYYY-MM-DD HH:mm:ss"),
+    };
+    const state = await collection_holdingsService.updateState(
+      req.uId,
+      req.body.cId,
+      req.body.seri_num,
+      false
+    );
+    if (state[0]) {
+      const result = await collection_sellingService.addCollection_selling(
+        data
+      );
+      if (result) {
+        return [null, 0, "寄售成功"];
+      }
+    }
+    return [null, 1, "寄售失败"];
+  })
+);
+
+router.post(
+  "/cancelSelling",
+  asyncHandler(async req => {
+    const product = await collection_sell_manageService.queryProductInfo(
+      req.body.cId
+    );
+    console.log(product);
+    if (!product.isBusiness) {
+      return [null, 1, "藏品尚未开启寄售"];
+    }
+    const isSell = await collection_holdingsService.queryGoods(
+      req.uId,
+      req.body.cId,
+      req.body.seri_num
+    );
+    if (isSell.state) {
+      return [null, 1, "藏品未寄售"];
+    }
+    const state = await collection_holdingsService.updateState(
+      req.uId,
+      req.body.cId,
+      req.body.seri_num,
+      true
+    );
+    if (state[0]) {
+      const result = await collection_sellingService.deleteSellingLog(
+        req.uId,
+        req.body.cId,
+        req.body.seri_num
+      );
+      if (result) {
+        return [null, 0, "取消成功"];
+      }
+    }
+    return [null, 1, "取消失败"];
   })
 );
 

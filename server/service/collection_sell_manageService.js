@@ -95,9 +95,6 @@ exports.updateIsBusiness = async function (cId, isBusiness) {
       },
     }
   );
-  if (result) {
-    return result.toJSON();
-  }
   return result;
 };
 
