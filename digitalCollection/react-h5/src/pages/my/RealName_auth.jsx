@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Form, Button, Input, Toast } from "antd-mobile";
 import NavigationBar from "../../components/common/NavigationBar";
 import {realname} from '../../api'

@@ -73,7 +73,9 @@ export default function My() {
       <List.Item
         key={operate.icon}
         onClick={() => {
-          console.log("first");
+          if (operate.text === "已认证") {
+            return;
+          }
           navigate(operate.path);
         }}
         prefix={<IconFont type={operate.icon} />}

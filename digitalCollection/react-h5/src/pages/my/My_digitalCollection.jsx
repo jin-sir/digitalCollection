@@ -24,6 +24,7 @@ export default function My_digitalCollection() {
         });
       }
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
   const [hasMore, setHasMore] = useState(false);
   async function loadMore() {

@@ -40,6 +40,7 @@ export default function Goods_details() {
         setIsBusiness(data.isBusiness);
       }
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [goodsId, count]);
   const createOrderFn = useCallback(() => {
     const createFn = mode === "home" ? createByAdmin : createByMarket;
@@ -69,6 +70,7 @@ export default function Goods_details() {
       }
       setVisible(false);
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [goodsInfo]);
   const openPopup = useCallback(() => {
     if (goodsInfo.state) {
@@ -87,6 +89,7 @@ export default function Goods_details() {
         });
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [goodsInfo]);
   return (
     <>

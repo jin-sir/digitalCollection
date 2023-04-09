@@ -1,8 +1,6 @@
-import React, { useCallback, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Card, Image, Popup } from "antd-mobile";
+import React, { useCallback } from "react";
+import { Card, Image } from "antd-mobile";
 import styles from "./index.less";
-import { getUserProductSeriNum } from "../../../api/index";
 
 export default function DigitalCollectionCard(props) {
   const switchToGoodsPage = useCallback(() => {
@@ -12,7 +10,7 @@ export default function DigitalCollectionCard(props) {
       url: props.t_collection_sell_manage.url,
       count: props.count,
     });
-  }, [props.cId]);
+  }, [props]);
   return (
     <>
       <Card

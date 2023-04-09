@@ -10,12 +10,6 @@ const swiperPath = "/api/client/swiper";
 const orderPath = "/api/client/order";
 const marketPath = "/api/client/market";
 
-const home = "/api/blogArticle";
-const tagPath = "/api/tag";
-const commentPath = "/api/comment";
-const leaveMessagePath = "/api/leaveMessage";
-const info = "/api/info";
-
 const getVeriCode = params => {
   return axios
     .get(`${basePath}${userPath}/getVeriCode`, { params })
